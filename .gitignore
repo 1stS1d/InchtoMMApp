@@ -20,6 +20,9 @@ __pycache__/
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
+# VS-Code directories
+.vscode/
+
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
