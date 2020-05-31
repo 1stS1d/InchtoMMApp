@@ -21,7 +21,7 @@ __pycache__/
 .com.apple.timemachine.donotpresent
 
 # VS-Code directories
-.vscode/settings.json
+/.vscode/
 
 # Directories potentially created on remote AFP share
 .AppleDB
