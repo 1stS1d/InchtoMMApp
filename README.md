@@ -7,6 +7,9 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.4:
+- Created basic form for app
+
 v0.03:
 - Moved to Kivy from Beeware
     - Beeware just not ready enough yet
