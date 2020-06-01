@@ -7,6 +7,9 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.6:
+- Added conversion functionality
+
 v0.0.5:
 - Got table to update
 - Removed splitter

@@ -14,12 +14,15 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.splitter import Splitter
 from kivy.uix.button import Button
+from kivy.uix.popup import Popup
 from kivymd.button import MDRaisedButton
 from kivymd.theming import ThemeManager
 #from kivymd.textfields.MDTextField import MDTextField
 from kivymd.textfields import MDTextField
 from kivymd.label import MDLabel
+from kivymd.dialog import MDDialog
 
+from decimal import Decimal
 from tabulate import tabulate
 
 class MainPage(GridLayout):
@@ -55,27 +58,79 @@ class LeftPane(GridLayout):
         Title = MDLabel()
         Title.text = "Quick Inch <--> MM Converter"
 
-        InchInput = MDTextField()
-        InchInput.hint_text = "Inches"
-        InchInput.multiline = False
+        self.InchInput = MDTextField()
+        self.InchInput.hint_text = "Inches"
+        self.InchInput.multiline = False
         
-        MMInput = MDTextField()
-        MMInput.hint_text = "Millimeters"
-        MMInput.multiline = False
+        self.MMInput = MDTextField()
+        self.MMInput.hint_text = "Millimeters"
+        self.MMInput.multiline = False
 
         ConvButton = MDRaisedButton()
         ConvButton.text = "   <--- CONVERT -->   "
         ConvButton.on_press = self.convert
         
         self.add_widget(Title)
-        self.add_widget(InchInput)
-        self.add_widget(MMInput)
+        self.add_widget(self.InchInput)
+        self.add_widget(self.MMInput)
         self.add_widget(ConvButton)
 
     def convert(self):
         global pastConvTable
         global pastConvs
-        pastConvs.insert(0, (2,2,2))
+
+        def tofrac(x, largest_denominator=128):
+            if not x >= 0:
+                raise ValueError("x must be >= 0")
+            scaled = int(round(x * largest_denominator))
+            whole, leftover = divmod(scaled, largest_denominator)
+            if leftover:
+                while leftover % 2 == 0:
+                    leftover >>= 1
+                    largest_denominator >>= 1
+            #return whole, leftover, largest_denominator
+            if (whole == 0):
+                stringVal = str(leftover) + "/" + str(largest_denominator)
+            else:
+                stringVal = str(whole) + " " + str(leftover) + "/" + str(largest_denominator)
+            return stringVal
+
+        #Converting Millimeters to Inches if Inches are blank
+        if (self.InchInput.text == ""):
+            mm = self.MMInput.text
+            d = Decimal(mm)
+            mm = float(mm)
+            inch = mm/25.4
+            if (d.as_tuple().exponent <= -3):
+                digits = 5
+            else:
+                digits = 4
+            pastConvs.insert(0, (inch, tofrac(inch), round(mm, digits)))
+            self.InchInput.text = ""
+            self.MMInput.text = ""
+
+        #Converting Inches to Millimeters if Millimeters are blank
+        elif (self.MMInput.text == ""):
+            inch = self.InchInput.text
+            d = Decimal(inch)
+            inch = float(inch)
+            mm = inch*25.4
+            if (d.as_tuple().exponent <= -4):
+                digits = 4
+            else:
+                digits = 3
+            pastConvs.insert(0, (round(inch,digits), tofrac(inch), mm))
+            self.InchInput.text = ""
+            self.MMInput.text = ""
+
+        #Error if there is a value in both boxes
+        else:
+            content = MDLabel(font_style='Body1', theme_text_color='Primary', text="Invalid Input!", size_hint_y=None, valign='top')
+            popup = MDDialog(title='Invalid Input', content=content, auto_dismiss=True, size_hint=(None, None), size=(200, 200))
+            popup.add_action_button("Dismiss", action=lambda *x: popup.dismiss())
+            popup.open()
+
+
         pastConvTable.text = str(tabulate(pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst"))
 
 class RightPane(BoxLayout):
