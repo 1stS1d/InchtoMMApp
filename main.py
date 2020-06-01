@@ -26,6 +26,7 @@ class MainPage(GridLayout):
     def __init__(self, **kwargs):
         super(MainPage, self).__init__(**kwargs)
         #self.orientation='vertical'
+        self.padding = (20, 5, 20, 20)
         self.cols = 1
         self.rows = 2
 
@@ -36,25 +37,18 @@ class MainPage(GridLayout):
 
         self.add_widget(self.rp)
 
-class LeftPaneSplitter(Splitter):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.rescale_with_parent = True
-        self.sizable_from = 'bottom'
-        self.add_widget(LeftPane())
-        self.min_size = 200
-        self.max_size = 200
+pastConvs = [(0,0,0), (1,1,1)]
+pastConvTable = RstDocument(text = str(tabulate(pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst")))
 
 class LeftPane(GridLayout):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super(LeftPane, self).__init__(**kwargs)
         self.cols = 1
         self.rows = 4
         self.row_force_default = True
         self.row_default_height = 40
-        self.padding = (20, 5, 20, 20)
 
-        self.size_hint = (500, 0.25)
+        self.size_hint = (500, 0.3)
 
         self.spacing = (0, 10)
 
@@ -79,30 +73,24 @@ class LeftPane(GridLayout):
         self.add_widget(ConvButton)
 
     def convert(self):
-        rp = RightPane()
-        rp.pastConvs.insert(0, (2,2,2))
-        rp.updateTable()
-        
+        global pastConvTable
+        global pastConvs
+        pastConvs.insert(0, (2,2,2))
+        pastConvTable.text = str(tabulate(pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst"))
 
 class RightPane(BoxLayout):
 
     pastConvs = [(0, 0, 0), (1, 1, 1)]
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.padding = 20
+        super(RightPane, self).__init__(**kwargs)
 
-        self.size_hint = (500, 0.75)
+        self.size_hint = (500, 0.7)
 
-        self.pastConvTable = RstDocument(text = str(tabulate(self.pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst")))
-       
+        global pastConvTable
+        global pastConvs
 
-        self.add_widget(self.pastConvTable)
-    
-    def updateTable(self):
-        self.pastConvTable.text = str(tabulate(self.pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst"))
-        self.pastConvTable.render()
-        
+        self.add_widget(pastConvTable)        
         
 
 class MyApp(App):
