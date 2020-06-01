@@ -61,10 +61,12 @@ class LeftPane(GridLayout):
         self.InchInput = MDTextField()
         self.InchInput.hint_text = "Inches"
         self.InchInput.multiline = False
+        self.InchInput.on_text_validate = self.convert
         
         self.MMInput = MDTextField()
         self.MMInput.hint_text = "Millimeters"
         self.MMInput.multiline = False
+        self.MMInput.on_text_validate = self.convert
 
         ConvButton = MDRaisedButton()
         ConvButton.text = "   <--- CONVERT -->   "
@@ -129,6 +131,8 @@ class LeftPane(GridLayout):
             popup = MDDialog(title='Invalid Input', content=content, auto_dismiss=True, size_hint=(None, None), size=(200, 200))
             popup.add_action_button("Dismiss", action=lambda *x: popup.dismiss())
             popup.open()
+            self.InchInput.text = ""
+            self.MMInput.text = ""
 
 
         pastConvTable.text = str(tabulate(pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst"))
