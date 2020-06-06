@@ -40,7 +40,7 @@ class MainPage(GridLayout):
 
         self.add_widget(self.rp)
 
-pastConvs = [(0,0,0), (1,1,1)]
+pastConvs = []
 pastConvTable = RstDocument(text = str(tabulate(pastConvs, headers=["INCH DEC", "INCH FRAC", "MILLIMETERS"], tablefmt="rst")))
 
 class LeftPane(GridLayout):
@@ -107,21 +107,26 @@ class LeftPane(GridLayout):
                 digits = 5
             else:
                 digits = 4
-            pastConvs.insert(0, (inch, tofrac(inch), round(mm, digits)))
+            pastConvs.insert(0, (round(inch,digits), tofrac(inch), mm))
             self.InchInput.text = ""
             self.MMInput.text = ""
 
         #Converting Inches to Millimeters if Millimeters are blank
         elif (self.MMInput.text == ""):
             inch = self.InchInput.text
-            d = Decimal(inch)
+            try:
+                d = Decimal(inch)
+            except:
+                num, denom = inch.split('/')
+                inch = float(num)/float(denom)
+                d = Decimal(inch)
             inch = float(inch)
             mm = inch*25.4
             if (d.as_tuple().exponent <= -4):
                 digits = 4
             else:
                 digits = 3
-            pastConvs.insert(0, (round(inch,digits), tofrac(inch), mm))
+            pastConvs.insert(0, (inch, tofrac(inch), round(mm, digits)))
             self.InchInput.text = ""
             self.MMInput.text = ""
 
@@ -139,7 +144,7 @@ class LeftPane(GridLayout):
 
 class RightPane(BoxLayout):
 
-    pastConvs = [(0, 0, 0), (1, 1, 1)]
+    #pastConvs = [(0, 0, 0), (1, 1, 1)]
 
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)

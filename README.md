@@ -7,6 +7,11 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.8:
+- Updated inch to mm conversion algorithm to handle fractional input
+- Added icon
+- Flipped rounding scheme (was accidentally rounding input not output)
+
 v0.0.7:
 - Added conversion on enter key
 
