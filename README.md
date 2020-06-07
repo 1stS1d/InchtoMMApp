@@ -7,6 +7,9 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.9:
+- Made it so that 0/128 is not displayed if there is no fraction
+
 v0.0.8:
 - Updated inch to mm conversion algorithm to handle fractional input
 - Added icon

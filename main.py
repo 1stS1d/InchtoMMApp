@@ -90,11 +90,15 @@ class LeftPane(GridLayout):
                 while leftover % 2 == 0:
                     leftover >>= 1
                     largest_denominator >>= 1
-            #return whole, leftover, largest_denominator
-            if (whole == 0):
-                stringVal = str(leftover) + "/" + str(largest_denominator)
+            #return whole
+            if (leftover == 0):
+                stringVal = str(whole)
             else:
-                stringVal = str(whole) + " " + str(leftover) + "/" + str(largest_denominator)
+                #return whole, leftover, largest_denominator
+                if (whole == 0):
+                    stringVal = str(leftover) + "/" + str(largest_denominator)
+                else:
+                    stringVal = str(whole) + " " + str(leftover) + "/" + str(largest_denominator)
             return stringVal
 
         #Converting Millimeters to Inches if Inches are blank
