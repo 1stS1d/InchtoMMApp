@@ -1,4 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
+
 from kivy_deps import sdl2, glew
 
 block_cipher = None
@@ -22,18 +23,18 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='Inch <-> MM',
+          name='Inch to MM Converter',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
           console=True , icon='inmmconv.ico')
-coll = COLLECT(exe, Tree('')
+coll = COLLECT(exe, Tree('\\'),
                a.binaries,
                a.zipfiles,
                a.datas,
-               *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)]
+               *[Tree(p) for p in (sdl2.dep_bins + glew.dep_bins)],
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='inmmconv')
+               name='Inch to MM Converter')

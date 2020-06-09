@@ -7,6 +7,10 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.10:
+- Added preliminary PyInstaller spec
+    - If it works, I will post a preliminary release
+
 v0.0.9:
 - Made it so that 0/128 is not displayed if there is no fraction
 
