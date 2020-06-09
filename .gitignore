@@ -68,3 +68,6 @@ oldAndroid/
 android/
 linux/
 django/
+
+buildozer/
+buildozerWin/

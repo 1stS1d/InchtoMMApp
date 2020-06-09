@@ -2,21 +2,24 @@
 
 from kivy_deps import sdl2, glew
 
+from kivy.tools.packaging.pyinstaller_hooks import get_deps_minimal, get_deps_all, hookspath, runtime_hooks
+
 block_cipher = None
 
 
 a = Analysis(['main.py'],
              pathex=['Z:\\General Documents\\Inch to MM App'],
-             binaries=[],
+             
              datas=[],
-             hiddenimports=[],
+             
              hookspath=[],
              runtime_hooks=[],
-             excludes=[],
+             
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher,
-             noarchive=False)
+             noarchive=False,
+             **get_deps_minimal(video=None, audio=None))
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -29,7 +32,7 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           console=True , icon='inmmconv.ico')
-coll = COLLECT(exe, Tree('\\'),
+coll = COLLECT(exe, Tree('\\General Documents\\Inch to MM App\\'),
                a.binaries,
                a.zipfiles,
                a.datas,

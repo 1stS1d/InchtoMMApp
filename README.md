@@ -7,6 +7,11 @@ Based on the INMMCONV.PY program from https://github.com/1stS1d/mklotz
 
 
 ## Change-log:
+v0.0.11:
+- Changed .spec file to do a minimal Kivy installation
+- Added buildozer/ to .gitignores
+- Moved main.py to src/ directory
+
 v0.0.10:
 - Added preliminary PyInstaller spec
     - If it works, I will post a preliminary release
